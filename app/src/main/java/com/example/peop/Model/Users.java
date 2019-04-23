@@ -1,4 +1,4 @@
-package com.example.peop;
+package com.example.peop.Model;
 
 public class Users {
 

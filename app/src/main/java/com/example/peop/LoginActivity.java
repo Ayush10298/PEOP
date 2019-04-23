@@ -8,25 +8,28 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+import com.example.peop.Model.Users;
+import com.example.peop.Prevalent.Prevalent;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.rey.material.widget.CheckBox;
 
+import io.paperdb.Paper;
 
 public class LoginActivity extends AppCompatActivity
 {
-    private EditText Email, InputPassword;
+    private EditText InputPhoneNumber, InputPassword;
     private Button LoginButton;
     private ProgressDialog loadingBar;
     private TextView AdminLink, NotAdminLink;
+
     private String parentDbName = "Users";
     private CheckBox chkBoxRememberMe;
 
@@ -37,16 +40,18 @@ public class LoginActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        LoginButton = (Button) findViewById(R.id.loginbtn);
-        InputPassword = (EditText) findViewById(R.id.pass);
-        Email = (EditText) findViewById(R.id.email);
-        AdminLink = (TextView) findViewById(R.id.admin);
+
+        LoginButton = (Button) findViewById(R.id.login_btn);
+        InputPassword = (EditText) findViewById(R.id.login_password_input);
+        InputPhoneNumber = (EditText) findViewById(R.id.login_phone_number_input);
+        AdminLink = (TextView) findViewById(R.id.admin_panel_link);
         NotAdminLink = (TextView) findViewById(R.id.not_admin_panel_link);
         loadingBar = new ProgressDialog(this);
 
 
-        chkBoxRememberMe = (CheckBox) findViewById(R.id.checkbox);
-        //Paper.init(this);
+        chkBoxRememberMe = (CheckBox) findViewById(R.id.remember_me_chkb);
+        Paper.init(this);
+
 
         LoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,9 +85,10 @@ public class LoginActivity extends AppCompatActivity
     }
 
 
+
     private void LoginUser()
     {
-        String phone = Email.getText().toString();
+        String phone = InputPhoneNumber.getText().toString();
         String password = InputPassword.getText().toString();
 
         if (TextUtils.isEmpty(phone))
@@ -111,8 +117,8 @@ public class LoginActivity extends AppCompatActivity
     {
         if(chkBoxRememberMe.isChecked())
         {
-            /*Paper.book().write(Prevalent.UserPhoneKey, phone);
-            Paper.book().write(Prevalent.UserPasswordKey, password);*/
+            Paper.book().write(Prevalent.UserPhoneKey, phone);
+            Paper.book().write(Prevalent.UserPasswordKey, password);
         }
 
 
@@ -145,8 +151,8 @@ public class LoginActivity extends AppCompatActivity
                                 Toast.makeText(LoginActivity.this, "logged in Successfully...", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
 
-                                Intent intent = new Intent(LoginActivity.this, Dashboard.class);
-                                //Prevalent.currentOnlineUser = usersData;
+                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                Prevalent.currentOnlineUser = usersData;
                                 startActivity(intent);
                             }
                         }
