@@ -111,7 +111,8 @@
         android:textStyle="bold"
         android:layout_marginLeft="80dp"
         android:layout_marginEnd="23dp"
-        />
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="23dp" />
 
 
     <TextView
@@ -127,6 +128,6 @@
         android:layout_marginLeft="80dp"
         android:layout_marginStart="25dp"
         android:visibility="invisible"
-        />
+        android:layout_alignParentLeft="true" />
 
 </RelativeLayout>
